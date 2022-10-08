@@ -1,4 +1,4 @@
-{% extends 'users/base.html' %}
+{% extends 'polls/base.html' %}
 
 {% block content %}
     <br>
@@ -8,5 +8,5 @@
 
     <h3>Login again?</h3>
     <a href="{% url 'login' %}">Login</a> <br>
-    <a href="{% url 'home' %}">Or go back to home-page.</a>
+    <a href="{% url 'index' %}">Or go back to home-page.</a>
 {% endblock content %}

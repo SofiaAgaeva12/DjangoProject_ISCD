@@ -25,7 +25,7 @@ def signup(request):
         form = SignupForm()
 
     context = {'form': form}
-    return render(request, 'users/signup.html', context)
+    return render(request, 'polls/signup.html', context)
 
 
 class IndexView(generic.ListView):
