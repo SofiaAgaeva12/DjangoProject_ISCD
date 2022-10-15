@@ -1,12 +1,16 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from django.core.validators import RegexValidator
+from django.core.validators import RegexValidator, FileExtensionValidator
 
 
 class SignupForm(UserCreationForm):
     LetterValidator = RegexValidator(r'^[- а-яА-Я]*$')
     LoginValidator = RegexValidator(r'^[- a-zA-Z]*$')
+
+    avatar = forms.ImageField(
+                              validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'bmp'])],
+                              required=True)
 
     first_name = forms.CharField(max_length=120, validators=[LetterValidator], required=True,
                                  help_text='Required. Only cyrillic letters, "-" and " ".',
@@ -23,3 +27,5 @@ class SignupForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('first_name', 'username', 'email', 'password1', 'password2')
+
+
