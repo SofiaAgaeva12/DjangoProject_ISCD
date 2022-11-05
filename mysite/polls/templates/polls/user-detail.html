@@ -1,0 +1,12 @@
+{% extends 'polls/base.html' %}
+
+{% block content %}
+    <br>
+    <div>
+       <h1 class="margin-b-20">{{ user.name}}</h1>
+        <p class="font-18 margin-b-20">{{record.summary}}</p>
+        <img src="{{ record.image.url }}" class="margin-b-20">
+     <p>{{ record.created_at }}</p>
+    </div>
+
+{% endblock content %}

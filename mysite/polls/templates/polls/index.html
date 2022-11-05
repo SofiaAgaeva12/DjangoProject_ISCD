@@ -5,6 +5,7 @@
     {% if user.is_authenticated %}
         <div class="" role="alert">
             <h1>Welcome {{ user }}!</h1>
+            <a class="a2" href="{{user.pk}}/update-data-user">Update user's data</a>
         </div>
 
     {% else %}

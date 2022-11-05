@@ -1,30 +1,32 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import Question, Choice
+from .models import Question, Choice, AuthUser
 from django.template import loader
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views import generic
 from .forms import SignupForm
-from django.contrib.auth import login, authenticate
+
 from django.shortcuts import render, redirect, get_object_or_404
 
 
-def signup(request):
-    if request.method == 'POST':
-        form = SignupForm(request.POST)
-        if form.is_valid():
-            form.save()
-            first_name = form.cleaned_data.get('first_name')
-            raw_password = form.cleaned_data.get('password1')
-            log = form.cleaned_data.get('username')
-            user = authenticate(username=log, password=raw_password)
-            login(request, user, first_name)
-            return redirect('index')
-    else:
-        form = SignupForm()
+class SignupView(generic.CreateView):
+    model = AuthUser
+    form_class = SignupForm
+    template_name = 'polls/signup.html'
+    success_url = reverse_lazy('login')
+    success_page = "polls"
 
-    context = {'form': form}
-    return render(request, 'polls/signup.html', context)
+
+class UserDetailView(generic.DetailView):
+    model = AuthUser
+
+
+class UpdateUserView(generic.UpdateView):
+    model = AuthUser
+    form_class = SignupForm
+    template_name = 'polls/updateDataUser.html'
+    success_url = reverse_lazy('index')
+    success_page = "polls"
 
 
 class IndexView(generic.ListView):
@@ -58,3 +60,5 @@ def vote(request, question_id):
         selected_choice.votes += 1
         selected_choice.save()
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+
+

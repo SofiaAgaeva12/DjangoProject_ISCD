@@ -2,6 +2,11 @@ import datetime
 
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import AbstractUser
+
+
+class AuthUser(AbstractUser):
+    avatar = models.ImageField(upload_to='polls/media/avatars', blank=False)
 
 
 class Question(models.Model):
