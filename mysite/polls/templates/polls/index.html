@@ -5,8 +5,10 @@
     {% if user.is_authenticated %}
 
         <div class="" role="alert">
-            <h1>Welcome {{ user }}!</h1>
-            <a class="a2" href="{{user.pk}}/update-data-user">Update user's data</a>
+            <ul class="sidebar-nav">
+                <li style="list-style-type: none;"><a href="{% url 'polls:user-detail' request.user.id %}">User: {{ user.get_username }}</a></li>
+                <li style="list-style-type: none;"><a class="a2" href="{{user.pk}}/update-data-user">Update user's data</a></li>
+            </ul>
         </div>
 
     {% else %}

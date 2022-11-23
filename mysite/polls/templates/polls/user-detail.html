@@ -1,12 +1,11 @@
-{% extends 'polls/base.html' %}
+{% extends "polls/base.html" %}
 
 {% block content %}
-    <br>
-    <div>
-       <h1 class="margin-b-20">{{ user.name}}</h1>
-        <p class="font-18 margin-b-20">{{record.summary}}</p>
-        <img src="{{ record.image.url }}" class="margin-b-20">
-     <p>{{ record.created_at }}</p>
-    </div>
+    <h1>Username: {{ authuser }}</h1>
 
-{% endblock content %}
+    <img style="width: 250px" src="/polls{{ authuser.avatar.url }}" alt="user's avatar">
+    {% if authuser == request.user %}
+        <a href="./update-user/">Update</a>
+        <a href="./delete">Delete</a>
+    {% endif %}
+{% endblock %}

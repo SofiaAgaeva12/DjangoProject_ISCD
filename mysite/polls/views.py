@@ -1,5 +1,8 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
+from django.core.exceptions import PermissionDenied
+
 from .models import Question, Choice, AuthUser
 from django.template import loader
 from django.urls import reverse, reverse_lazy
@@ -7,26 +10,6 @@ from django.views import generic
 from .forms import SignupForm
 
 from django.shortcuts import render, redirect, get_object_or_404
-
-
-class SignupView(generic.CreateView):
-    model = AuthUser
-    form_class = SignupForm
-    template_name = 'polls/signup.html'
-    success_url = reverse_lazy('login')
-    success_page = "polls"
-
-
-class UserDetailView(generic.DetailView):
-    model = AuthUser
-
-
-class UpdateUserView(generic.UpdateView):
-    model = AuthUser
-    form_class = SignupForm
-    template_name = 'polls/updateDataUser.html'
-    success_url = reverse_lazy('index')
-    success_page = "polls"
 
 
 class IndexView(generic.ListView):
@@ -61,4 +44,23 @@ def vote(request, question_id):
         selected_choice.save()
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
 
+
+class SignupView(generic.CreateView):
+    model = AuthUser
+    form_class = SignupForm
+    template_name = 'polls/signup.html'
+    success_url = reverse_lazy('login')
+    success_page = "polls"
+
+
+class UserDetailView(LoginRequiredMixin, generic.DetailView):
+    model = AuthUser
+
+
+class UpdateUserView(LoginRequiredMixin, generic.UpdateView):
+    model = AuthUser
+    form_class = SignupForm
+    template_name = 'polls/update-user.html'
+    success_url = reverse_lazy('user-detail')
+    success_page = "polls"
 
