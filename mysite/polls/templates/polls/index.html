@@ -7,9 +7,22 @@
         <div class="" role="alert">
             <ul class="sidebar-nav">
                 <li style="list-style-type: none;"><a href="{% url 'polls:user-detail' request.user.id %}">User: {{ user.get_username }}</a></li>
-                <li style="list-style-type: none;"><a class="a2" href="{{user.pk}}/update-data-user">Update user's data</a></li>
             </ul>
         </div>
+   {% if latest_question_list %}
+<ul>
+    {% for question in latest_question_list %}
+    <li><a href="{% url 'polls:detail' question.id %}">{{question.question_text}}</a> </li>
+    {% endfor %}
+</ul>
+    <a class="a2" href="{% url 'logout' %}">Logout</a>
+    {% else %}
+     <p>
+         Нет вопросов!
+     </p>
+
+{% endif %}
+
 
     {% else %}
         <div class="" role="alert">
@@ -18,9 +31,7 @@
     {% endif %}
     <br>
     <div class="center">
-        {% if user.is_authenticated %}
-            <a class="a2" href="{% url 'logout' %} ">Logout</a>
-        {% else %}
+        {% if not user.is_authenticated %}
             <a class="a1" href="{% url 'polls:signup'%}?next={{request.path}}">Sign Up</a>
             <a class="a2" href="{% url 'login' %}">Login</a>
         {% endif %}

@@ -27,3 +27,8 @@ class Choice(models.Model):
 
     def __str__(self):
         return self.choice_text
+
+
+class UserChoice(models.Model):
+    user = models.ForeignKey(AuthUser, on_delete=models.CASCADE)
+    choice = models.ForeignKey(Choice, on_delete=models.CASCADE)

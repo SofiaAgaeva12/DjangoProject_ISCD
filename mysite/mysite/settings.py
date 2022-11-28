@@ -104,3 +104,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'polls.AuthUser'
 
 LOGIN_REDIRECT_URL = reverse_lazy('polls:index')
+LOGOUT_REDIRECT_URL = reverse_lazy('polls:index')

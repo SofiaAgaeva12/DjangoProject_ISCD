@@ -14,4 +14,5 @@ urlpatterns = [
     path('user/<int:pk>/', views.UserDetailView.as_view(template_name='polls/user-detail.html'),
          name='user-detail'),
     path('user/<int:pk>/update-user/', views.UpdateUserView.as_view(), name='update-user'),
+    path('user/<int:pk>/delete-user/', views.DeleteUserView.as_view(), name='delete-user'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -2,8 +2,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.exceptions import PermissionDenied
-
-from .models import Question, Choice, AuthUser
+from django.contrib.auth.decorators import login_required
+from .models import Question, Choice, AuthUser, UserChoice
 from django.template import loader
 from django.urls import reverse, reverse_lazy
 from django.views import generic
@@ -30,6 +30,7 @@ class ResultsView(generic.DetailView):
     template_name = 'polls/results.html'
 
 
+@login_required
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     try:
@@ -61,6 +62,10 @@ class UpdateUserView(LoginRequiredMixin, generic.UpdateView):
     model = AuthUser
     form_class = SignupForm
     template_name = 'polls/update-user.html'
-    success_url = reverse_lazy('user-detail')
-    success_page = "polls"
+    success_url = '/'
 
+
+class DeleteUserView(LoginRequiredMixin, generic.DeleteView):
+    model = AuthUser
+    template_name = 'polls/delete-user.html'
+    success_url = '/'
