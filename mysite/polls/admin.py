@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Question, Choice, AuthUser
+from .models import Question, Choice, AuthUser, Vote
 
 admin.site.register(AuthUser)
 
@@ -14,3 +14,5 @@ class QuestionAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Question, QuestionAdmin)
+
+admin.site.register(Vote)

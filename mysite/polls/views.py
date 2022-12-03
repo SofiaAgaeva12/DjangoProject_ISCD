@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
-from .models import Question, Choice, AuthUser, UserChoice
+from .models import Question, Choice, AuthUser, Vote
 from django.template import loader
 from django.urls import reverse, reverse_lazy
 from django.views import generic
@@ -38,11 +38,20 @@ def vote(request, question_id):
     except (KeyError, Choice.DoesNotExist):
         return render(request, 'polls/detail.html', {
             'question': question,
-            'error_message': 'вы не сделали выбор'
+            'error_message': 'Выберете один из пунктов'
+        })
+    if Vote.objects.filter(question=question, user=request.user).exists():
+        return render(request, 'polls/detail.html', {
+            'question': question,
+            'error_message': 'Выбор уже сделан'
         })
     else:
+        question.question_votes += 1
+        question.save()
         selected_choice.votes += 1
         selected_choice.save()
+        user_voted = Vote.objects.create(question=question, user=request.user)
+        user_voted.save()
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
 
 
