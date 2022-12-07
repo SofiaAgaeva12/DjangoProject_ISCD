@@ -4,7 +4,6 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 
-
 class AuthUser(AbstractUser):
     avatar = models.ImageField(upload_to='polls/media/avatars', blank=False)
 
@@ -13,6 +12,10 @@ class Question(models.Model):
     question_text = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
     question_votes = models.IntegerField(default=0)
+    description = models.TextField(max_length=600)
+
+    avatar = models.ImageField(upload_to='polls/media/questions')
+
     def was_published_recently(self):
         return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
 
