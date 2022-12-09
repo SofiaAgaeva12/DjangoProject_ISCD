@@ -14,7 +14,7 @@ class Question(models.Model):
     question_votes = models.IntegerField(default=0)
     description = models.TextField(max_length=600)
 
-    avatar = models.ImageField(upload_to='polls/media/questions')
+    image = models.ImageField(upload_to='polls/media/questions')
 
     def was_published_recently(self):
         return self.pub_date >= timezone.now() - datetime.timedelta(days=1)

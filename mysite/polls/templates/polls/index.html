@@ -16,7 +16,7 @@
     {% for question in latest_question_list %}
     {% if question.was_published_recently or user.is_superuser %}
     <li><a href="{% url 'polls:detail' question.id %}">{{question.question_text}}</a></li>
-    <span >{{question.description|truncatechars:30}}</span>
+    {{question.description|truncatechars:30}}
     {% endif %}
     {% endfor %}
 </ul>
